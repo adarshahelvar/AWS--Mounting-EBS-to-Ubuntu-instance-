@@ -1,0 +1,232 @@
+
+**********************************************************************************************************************************************
+STEP BY STEP GUIDE
+**********************************************************************************************************************************************
+
+Step 1: Create an instance using Ubuntu AMI
+Step 2: Connect instance using EC2 instance connect
+Step 3: Run sudo -i
+Step 4: Run sudo apt-get update
+Step 5: Run sudo apt-get upgrade
+Step 6: Now go to Volume in EBS (In EC2 UI sidebar)
+Step 7: Click on Create a new volume
+Step 7: Select Volume type (general purpose (gp3) )
+Step 8: Change the Size (GiB) (Like 100GiB/5GiB anything)
+Step 9: Change Availability Zone to instance Availability Zone (like ap-south-1b) ---> This should be same as instance else it will not attach
+Step 10: You can check Encrypt this volume (Optional)
+Step 11: Clecik on create volume
+Step 12: Now again go back to Volume UI and select the new volume you created
+Step 12: Click on Actions
+Step 12: Click on attach volume
+Step 13: Select the instance you want to attach the volume you created
+Step 14: Select the device name ---> /dev/xvdbz
+Step 15: Now click on attach volume
+Step 16: Now go back to running instance CLI
+Step 17: Run lsblk and df -h ---> Stands for "disk free", used to check disk space usage.
+Step 18: Run sudo mkfs -t xfs /dev/xvdbz (If it is not working means run sudo mkfs.xfs -f /dev/xvdbz)
+Step 19: Run sudo mkdir /abc
+Step 20: Run sudo mount /dev/xvdbz /abc
+Step 21: Run sudo mountpoint /abc
+Step 22: Run cd /abc
+Step 23: Run sudo echo "Hello 1432, How are you ?">index.html
+Step 24: Run cat index.html
+Step 25: Run lsblk to check mount point of xvdbz, you will get below output
+
+
+
+**********************************************************************************************************************************************
+ALL COMMANDS USED
+**********************************************************************************************************************************************
+# Step 3
+sudo -i
+
+# Step 4
+sudo apt-get update
+
+# Step 5
+sudo apt-get upgrade
+
+# Step 17
+lsblk
+df -h
+
+# Step 18
+sudo mkfs -t xfs /dev/xvdbz  
+# If the above command doesn't work, try:
+sudo mkfs.xfs -f /dev/xvdbz  
+
+# Step 19
+sudo mkdir /abc
+
+# Step 20
+sudo mount /dev/xvdbz /abc
+
+# Step 21
+sudo mountpoint /abc
+
+# Step 22
+cd /abc
+
+# Step 23
+sudo echo "Hello 1432, How are you ?" > index.html
+
+# Step 24
+cat index.html
+
+# Step 25
+lsblk
+
+
+
+**********************************************************************************************************************************************
+ALL COMMANDS EXPLANATION
+**********************************************************************************************************************************************
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: sudo -i
+
+What it does:
+    Switches the current user to the root (superuser) account, allowing unrestricted access to system commands.
+
+Explanation:
+    sudo ---> Stands for "superuser do", grants temporary root privileges.
+    -i ---> Starts a new shell session as the root user (similar to logging in as root).
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: sudo apt-get update
+
+What it does:
+    Updates the package lists for all available software from the configured repositories.
+
+Explanation:
+    sudo ---> Runs the command with administrator privileges.
+    apt-get ---> The package manager for Debian-based Linux distributions like Ubuntu.
+    update ---> Fetches the latest package index from online repositories but does not install anything.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: sudo apt-get upgrade
+
+What it does:
+    Installs the latest versions of all currently installed packages.
+
+Explanation:
+
+    sudo ---> Grants root access to execute the upgrade.
+    apt-get ---> Handles package management.
+    upgrade ---> Installs updated versions of all currently installed packages without removing any existing ones.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: lsblk
+
+What it does:
+    Lists all block storage devices (disks, partitions, and mounted volumes).
+
+Explanation:
+    lsblk ---> "List Block Devices", shows a tree view of all storage devices and their partitions.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: df -h
+
+What it does:
+    Displays the available and used disk space for mounted filesystems in a human-readable format.
+
+Explanation:
+    df ---> Stands for "disk free", shows how much disk space is used and available.
+    -h ---> Converts sizes to human-readable units (MB, GB, TB) instead of raw bytes.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: sudo mkfs -t xfs /dev/xvdbz
+
+What it does:
+    Formats the disk /dev/xvdbz with the XFS filesystem, making it usable.
+
+Explanation:
+    sudo ---> Required for administrative tasks like formatting.
+    mkfs ---> Stands for "Make Filesystem", used to create a new filesystem.
+    -t xfs ---> Specifies the XFS filesystem type (a high-performance journaling filesystem).
+    /dev/xvdbz ---> The disk name that will be formatted.
+
+🔴 Alternative if the above command fails:
+
+sudo mkfs.xfs -f /dev/xvdbz  
+
+    mkfs.xfs ---> An alternative way to format using XFS.
+    -f ---> Forces formatting even if the disk was previously used.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: sudo mkdir /abc
+
+What it does:
+    Creates a new directory named /abc, which will be used as a mount point.
+
+Explanation:
+    sudo ---> Grants permission to create a directory in the root system.
+    mkdir ---> Stands for "Make Directory", used to create folders.
+    /abc ---> The directory name where the new volume will be mounted.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: sudo mount /dev/xvdbz /abc
+
+What it does:
+    Attaches (mounts) the formatted disk /dev/xvdbz to /abc, making it accessible.
+
+Explanation:
+    sudo ---> Required for mounting operations.
+    mount ---> Used to attach a storage device to a directory.
+    /dev/xvdbz ---> The disk being mounted.
+    /abc ---> The mount point (directory) where the disk will be accessible.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: sudo mountpoint /abc
+
+What it does:
+    Checks if /abc is a valid mount point for a disk.
+
+Explanation:
+    sudo ---> Required for system commands.
+    mountpoint ---> Verifies whether a directory is a mount point.
+    /abc ---> The directory to check.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: cd /abc
+
+What it does:
+    Changes the current directory to /abc, the mounted volume.
+
+Explanation:
+    cd ---> Stands for "Change Directory", moves into a new folder.
+    /abc ---> The target directory where the volume is mounted.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: sudo echo "Hello 1432, How are you ?" > index.html
+
+What it does:
+    Creates a file named index.html and writes "Hello 1432, How are you ?" into it.
+
+Explanation:
+    sudo ---> Grants permission to create a file in the mounted directory.
+    echo ---> Prints text to the terminal or a file.
+    "Hello 1432, How are you ?" ---> The text being written.
+    > ---> Redirects the output into a file (index.html).
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: cat index.html
+
+What it does:
+    Displays the contents of the index.html file.
+
+Explanation:
+    cat ---> Stands for "concatenate", used to read and display files.
+    index.html ---> The file whose contents will be printed.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Command: lsblk
+
+What it does:
+    Lists all storage devices again to confirm that /dev/xvdbz is still mounted.
+
+Explanation:
+    lsblk ---> "List Block Devices", shows disk partitions and their mount points.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+Summary
+    sudo -i ---> Switch to root user.
+    sudo apt-get update ---> Fetch latest package lists.
+    sudo apt-get upgrade ---> Upgrade installed packages.
+    lsblk ---> Show attached disks.
+    df -h ---> Show disk space usage.
+    sudo mkfs -t xfs /dev/xvdbz ---> Format the disk as XFS.
+    sudo mkdir /abc ---> Create a directory for mounting.
+    sudo mount /dev/xvdbz /abc ---> Mount the disk to /abc.
+    sudo mountpoint /abc ---> Check if /abc is a valid mount point.
+    cd /abc ---> Navigate into the mounted volume.
+    sudo echo "Hello 1432, How are you ?" > index.html ---> Create a test file.
+    cat index.html ---> Verify file content.
+    lsblk ---> Check disk and mount point again.
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
